@@ -1,20 +1,36 @@
+from models import Movie  # Import the Movie model
 class MovieRepository:
 
     def get_all_movies(self):
-        # TODO get all movies from the DB
-        return None
+        movies = Movie.query.all()
+        return movies
 
+
+from models import Movie  # Import the Movie model
+class MovieRepository:
     def get_movie_by_id(self, movie_id):
-        # TODO get a single movie from the DB using the ID
-        return None
+        movie = Movie.query.get(movie_id)
+        return movie
 
-    def create_movie(self, title, director, rating):
-        # TODO create a new movie in the DB
-        return None
 
-    def search_movies(self, title):
-        # TODO get all movies matching case insensitive substring (SQL LIKE, use google for how to do with SQLAlchemy)
-        return None
+from models import Movie  # Import the Movie model
+from app import db  # Import the SQLAlchemy DB object
+class MovieRepository:
+    def create_movie(self, title, director, release_year):
+        new_movie = Movie(title=title, director=director, release_year=release_year)
+        db.session.add(new_movie)
+        db.session.commit()
+        return new_movie
+
+from models import Movie  # Import the Movie model
+class MovieRepository:
+    def search_movies(self, search_term):
+        movies = Movie.query.filter(
+            (Movie.title.ilike(f"%{search_term}%")) | 
+            (Movie.director.ilike(f"%{search_term}%"))
+        ).all()
+        return movies
+
 
 
 # Singleton to be used in other modules

@@ -1,10 +1,13 @@
 from flask import Flask, abort, redirect, render_template, request
+import sqlalchemy
 
 from src.repositories.movie_repository import movie_repository_singleton
 
 app = Flask(__name__)
 
 # TODO: DB connection
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://username:password@localhost/your_database_name'
+db = sqlalchemy(app)
 
 @app.get('/')
 def index():
